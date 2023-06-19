@@ -8,5 +8,5 @@ OPENAI_KEY=<your key>
 Deploy
 
 ```
-serverless deploy --region eu-west-1 --param="openaikey=KEY"
+serverless deploy --region eu-west-1 --param="openaikey=<YOUR-KEY>"
 ```

@@ -35,7 +35,7 @@ provider:
         - arn:aws:iam::aws:policy/CloudFrontFullAccess
         - arn:aws:iam::aws:policy/CloudWatchFullAccess
   environment:    
-    openAiKey: ${param.openaikey, 'NONE'}
+    openAiKey: ${param:openaikey, 'NONE'}
 
 functions:
 
