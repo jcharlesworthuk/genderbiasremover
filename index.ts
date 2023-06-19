@@ -1,10 +1,10 @@
 import { Configuration, OpenAIApi } from "openai";
 
 
-const promptInstruction = "Edit the following job description to make it less gender coded."
+//const promptInstruction = "Edit the following job description to make it less gender coded."
 
 // This prompt tends to replace single words but it does more of them...
-//const promptInstruction = "Edit the following job description to reword phrases that contain masculine or feminine coded words, in order to make the overall description less gender-coded."
+const promptInstruction = "Edit the following job description to reword phrases that contain masculine or feminine coded words, in order to make the overall description less gender-coded."
 
 const promptBeginning = "Here is a list of feminine coded words (feminine_coded_words) and masculine coded words (masculine_coded_words)";
 
