@@ -1,13 +1,16 @@
 {
     "compilerOptions": {
-        "moduleResolution": "node",
         "lib": [
-            "ESNext",
-            "dom"
+            "dom",
+            "esnext"
         ],
-        "sourceMap": true,
-        "outDir": "build", // .js (as well as .d.ts, .js.map, etc.) files will be emitted into this directory.,
-        "target": "ESNext", // Target environment. Most modern browsers support ES6, but you may want to set it to newer or older. (defaults to ES3)
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "resolveJsonModule": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "target": "esnext",
     },
     "include": [
         "./**/*.ts"

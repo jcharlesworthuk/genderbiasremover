@@ -1,0 +1,51 @@
+service: genderbiasremover
+plugins:
+  - serverless-webpack
+
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.ts
+    packager: 'npm'
+    includeModules:
+      forceExclude:
+        - aws-sdk # Included in the Lambda environment already
+    packagerOptions:
+      scripts:
+        - rimraf node_modules/aws-sdk   
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  stackName: genderbiasremover
+  apiName: genderbiasremover
+  stage: prod
+  region: eu-west-1
+  versionFunctions: false
+  deploymentBucket: genderbiasremover-backend-deployments
+  apiGateway:
+    apiKeys:
+      - genderbiasremoverkey
+
+  deploymentPrefix: api
+  iam:
+    role:
+      name: GenderBiasRemoverServerlessRole
+      path: /
+      managedPolicies:
+        - arn:aws:iam::aws:policy/CloudFrontFullAccess
+        - arn:aws:iam::aws:policy/CloudWatchFullAccess
+  environment:    
+    openAiKey: ${param.openaikey, 'NONE'}
+
+functions:
+
+  ##### Admin Lambdas #####
+
+  process-text:
+    handler: process-text.main
+    timeout: 120
+
+# Create our resources with separate CloudFormation templates
+resources:
+  # API Gateway Errors - these add the CORS headers onto API responses even when they are errors
+  - ${file(cloudformation/api-gateway-errors.yml)}
