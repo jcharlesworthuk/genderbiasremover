@@ -130,8 +130,6 @@ function buildResponse(statusCode: number, bodyString: string): IHttpResponse {
     return {
         statusCode: statusCode,
         headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Credentials": true
         },
         body: bodyString
     };

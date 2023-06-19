@@ -18,17 +18,11 @@ provider:
   name: aws
   runtime: nodejs16.x
   stackName: genderbiasremover
-  apiName: genderbiasremover
   stage: prod
   region: eu-west-1
   versionFunctions: false
   deploymentBucket: 
     name: genderbiasremover-deployments
-  apiGateway:
-    apiKeys:
-      - genderbiasremoverkey
-
-  deploymentPrefix: api
   iam:
     role:
       name: GenderBiasRemoverServerlessRole
@@ -44,10 +38,5 @@ functions:
   process-text:
     handler: process-text.main
     timeout: 120
-    events:
-      - http: { path: process, method: post, cors: true }
-
-
-resources:
-  # API Gateway Errors - these add the CORS headers onto API responses even when they are errors
-  - ${file(cloudformation/api-gateway-errors.yml)}
+    url:
+      cors: true
