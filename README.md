@@ -1,5 +1,9 @@
 # Gender Bias Remover
 
+## Try It Live
+
+[https://genderbiasremover.com](https://genderbiasremover.com)
+
 ## About
 
 Our language use often subtly perpetuates 'gender-coding'. This is a reflection of societal norms which ascribe specific characteristics and behaviors to men and women, and inevitably, this bias finds its way into our verbal and written communications. Terms such as "bossy" and "feisty" serve as good examples, as they are rarely, if ever, used to depict men. This phenomenon of gender-coded language pervades even job adverts, and studies have revealed that it can discourage women from applying to positions that use masculine-coded language in their descriptions.
