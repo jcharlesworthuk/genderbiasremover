@@ -8,7 +8,5 @@ OPENAI_KEY=<your key>
 Deploy
 
 ```
-serverless deploy --stage prod --param="openaikey=HELLO"
-
-serverless deploy --region eu-west-1 --param="openaikey=<YOUR-KEY>"
+serverless deploy --region eu-west-1 --stage prod --param="openaikey=<YOUR-KEY>"
 ```

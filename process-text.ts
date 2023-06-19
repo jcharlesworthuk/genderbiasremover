@@ -3,7 +3,7 @@ import { Configuration, OpenAIApi } from "openai";
 
 
 // This prompt tends to replace single words but it does more of them...
-const promptInstruction = "Edit the following job description to reword phrases that contain masculine or feminine coded words, in order to make the overall description less gender-coded."
+const promptInstruction = "Edit the following job description to remove the masculine/feminine coded words from the previous lists, and replace them with a word or phrase that is less gender-coded. For each replacement, explain why you need to make that change."
 
 const promptBeginning = "Here is a list of feminine coded words (feminine_coded_words) and masculine coded words (masculine_coded_words)";
 
@@ -177,15 +177,15 @@ export async function main(event: APIGatewayEvent, context: Context) {
                                     properties: {
                                         changeFrom: {
                                             type: "string",
-                                            description: "The phrase we want to search for"
+                                            description: "The word or phrase we want to search for"
                                         },
                                         changeTo: {
                                             type: "string",
-                                            description: "The new phrase to put in its place"
+                                            description: "The new word or phrase to replace it with"
                                         },
                                         reason: {
                                             type: "string",
-                                            description: "The reason for this replacement"
+                                            description: "The explanation for this replacement"
                                         }
                                     }
                                 }
