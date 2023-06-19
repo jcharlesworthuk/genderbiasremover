@@ -1,7 +1,10 @@
 import { Configuration, OpenAIApi } from "openai";
 
-const promptBeginning = `Here is a list of feminine coded words (feminine_coded_words) and masculine coded words (masculine_coded_words)
+const promptInstruction = "Edit the following job description to rephrase sentences that contain masculine or feminine coded words, in order to make the overall description less gender-coded."
 
+const promptBeginning = "Here is a list of feminine coded words (feminine_coded_words) and masculine coded words (masculine_coded_words)";
+
+const wordsAsStrings = `
 feminine_coded_words = [
     "agree",
     "affectionate",
@@ -108,11 +111,7 @@ masculine_coded_words = [
     "stubborn",
     "superior",
     "unreasonab"
-]
-
-For the following job description (enclosed in three backticks), tell me if it has more feminine coded words or masculine coded words and list out the frequency of those words.  Also give me a list of suggestions for how to rephrase parts of the job description that contain these words to make the overall description less gender-coded.
-`
-
+]`;
 
 const testJobDescription = `Job Title: Mechanical Engineer
 
@@ -150,24 +149,58 @@ async function main() {
     }));
     console.log('Hello world');
 
-    const prompt = promptBeginning + '\n```' + testJobDescription + '\n```';
+    const prompt = promptBeginning + '\n' + wordsAsStrings
+        + '\n' + promptInstruction + '\n```' + testJobDescription + '\n```';
 
-    const completion = await openai.createChatCompletion({
+    const gptResponse = await openai.createChatCompletion({
         model: "gpt-3.5-turbo-0613",
         messages: [
             {
                 role: "user",
                 content: prompt
             }
+        ],
+        functions: [
+            {
+                name: "edit_job_description",
+                description: "Edits the job description by replacing phrases",
+                parameters: {
+                    type: "object",
+                    properties: {
+                        replacements: {
+                            type: "array",
+                            description: "Array of the phrases to replace",
+                            items: {
+                                type: "object",
+                                properties: {
+                                    changeFrom: {
+                                        type: "string",
+                                        description: "The phrase we want to search for"
+                                    },
+                                    changeTo: {
+                                        type: "string",
+                                        description: "The new phrase to put in its place"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         ]
     });
 
-    console.log(completion);
+
+    // finish_reason should be "function_call"
+    console.log(gptResponse.data.choices[0].finish_reason)
+
+
+    console.log(gptResponse);
 }
 
 main().then(() => {
     console.log('DONE');
 }).catch(e => {
     console.error(e);
+    console.error(e.response.data.error.message);
 });
-
