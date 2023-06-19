@@ -1,6 +1,10 @@
 import { Configuration, OpenAIApi } from "openai";
 
-const promptInstruction = "Edit the following job description to rephrase sentences that contain masculine or feminine coded words, in order to make the overall description less gender-coded."
+
+const promptInstruction = "Edit the following job description to make it less gender coded."
+
+// This prompt tends to replace single words but it does more of them...
+//const promptInstruction = "Edit the following job description to reword phrases that contain masculine or feminine coded words, in order to make the overall description less gender-coded."
 
 const promptBeginning = "Here is a list of feminine coded words (feminine_coded_words) and masculine coded words (masculine_coded_words)";
 
@@ -135,6 +139,68 @@ Education & Experience Requirements
 Bachelor’s degree
 3-5 years of work experience`
 
+const testJobDescriptionLonger = `Site Foreman
+
+Since 1944 AD Construction Group has established itself as a well-regarded refurbishment contractor providing building maintenance services within the public sector, predominantly to local authority housing associations. Working as a close-knit team the organisation has successfully proven time and time again its ability to be a serious competitor in the construction industry.
+
+We are looking for a foreperson to be working in and around London Bridge.
+
+Main purpose of the role:
+
+Plan and supervise the day-today activities at site level and ensure that work is carried out in a safe manner, in compliance with all H&S legislation.
+
+Due to the variety of sites, driving is a fundamental part of the role, therefore applicants must have a full manual driving license.
+
+Essential skills/knowledge:
+
+Knowledge of fire stopping and fire works
+Experience of managing a team of trade staff across multiple sites
+Excellent communication skills
+Ability to establish good working relationships with clients, the public and subcontractors
+Ability to manage own time and prioritise workload
+CSCS Card
+Driving license
+Desirable skills:
+
+Basic IT knowledge
+Scaffold inspection – training can be provided
+First Aid – training can be provided
+IPAF
+PASMA
+SSSTS/SMSTS
+Package:
+
+Salary - £40,000 to £47,000, based on experience
+Hours – Monday to Friday, 8am to 5pm (1hr for lunch)
+21 days of holiday + bank holidays and Christmas Closure
+Birthday day off
+Company van (tracked) and fuel card for business use
+Phone for business use
+Company branded Uniform and relevant PPE
+Additional information:
+
+DBS check will be carried out on your behalf at the companies expense
+Eligible to work in the UK
+Six Month Probationary Period
+All applications are assessed in line with the Equal Opportunities Regulations and Data Protection Regulations. For more information please see our website www.theadgroup.co.uk
+
+Job Types: Full-time, Permanent
+
+Salary: £40,000.00-£47,000.00 per year
+
+Benefits:
+
+Company car
+Referral programme
+Schedule:
+
+Monday to Friday
+No weekends
+Licence/Certification:
+
+Driving Licence (required)
+Work Location: On the road`
+
 async function main() {
     type ProcessEnv = {
         OPENAI_KEY: string
@@ -150,7 +216,7 @@ async function main() {
     console.log('Hello world');
 
     const prompt = promptBeginning + '\n' + wordsAsStrings
-        + '\n' + promptInstruction + '\n```' + testJobDescription + '\n```';
+        + '\n' + promptInstruction + '\n```' + testJobDescriptionLonger + '\n```';
 
     const gptResponse = await openai.createChatCompletion({
         model: "gpt-3.5-turbo-0613",
@@ -180,6 +246,10 @@ async function main() {
                                     changeTo: {
                                         type: "string",
                                         description: "The new phrase to put in its place"
+                                    },
+                                    reason: {
+                                        type: "string",
+                                        description: "The reason for this replacement"
                                     }
                                 }
                             }
