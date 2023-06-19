@@ -1,5 +1,6 @@
 service: genderbiasremover
 plugins:
+  - serverless-deployment-bucket
   - serverless-webpack
 
 custom:
@@ -21,7 +22,8 @@ provider:
   stage: prod
   region: eu-west-1
   versionFunctions: false
-  deploymentBucket: genderbiasremover-backend-deployments
+  deploymentBucket: 
+    name: genderbiasremover-deployments
   apiGateway:
     apiKeys:
       - genderbiasremoverkey
@@ -35,17 +37,17 @@ provider:
         - arn:aws:iam::aws:policy/CloudFrontFullAccess
         - arn:aws:iam::aws:policy/CloudWatchFullAccess
   environment:    
-    openAiKey: ${param:openaikey, 'NONE'}
+    OPENAI_KEY: ${param:openaikey, 'NONE'}
 
 functions:
-
-  ##### Admin Lambdas #####
 
   process-text:
     handler: process-text.main
     timeout: 120
+    events:
+      - http: { path: process, method: post, cors: true }
 
-# Create our resources with separate CloudFormation templates
+
 resources:
   # API Gateway Errors - these add the CORS headers onto API responses even when they are errors
   - ${file(cloudformation/api-gateway-errors.yml)}
