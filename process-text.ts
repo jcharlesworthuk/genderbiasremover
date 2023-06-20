@@ -194,6 +194,7 @@ export async function main(event: APIGatewayEvent, context: Context) {
             ]
         });
     
+        console.log(JSON.stringify(gptResponse.data?.choices[0], null, 4));
     
         if (!gptResponse.data?.choices[0]?.finish_reason 
             || gptResponse.data.choices[0].finish_reason !== "function_call") throw new Error(`ChatGPT did not return a function call`);
