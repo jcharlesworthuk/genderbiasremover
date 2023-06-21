@@ -147,8 +147,8 @@ export async function main(event: APIGatewayEvent, context: Context) {
     try {
         const openai = new OpenAIApi(new Configuration({ apiKey: env.OPENAI_KEY }));
     
-        const prompt = promptBeginning + '\n' + wordsAsStrings
-            + '\n' + promptInstruction + '\n```' + body.text.replace(/```/g, '') + '\n```';
+        const prompt = promptBeginning + '\n\n' + wordsAsStrings
+            + '\n\n' + promptInstruction + '\n\n```' + body.text.replace(/```/g, '') + '\n```';
     
         console.log(`Calling ChatGPT with this prompt:`);
         console.log(prompt);
